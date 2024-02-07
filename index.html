@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, 
+initial-scale=1.0">
+    <title>Edit Text Live</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, 
+sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #B0C4DE; /* Powder Blue */
+        }
+        h1 {
+            cursor: pointer;
+            font-size: 2em;
+            color: #333;
+        }
+        input[type="text"] {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #333;
+            width: auto;
+            background-color: #fff;
+            color: #333;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #FFA500; /* Orange */
+        }
+    </style>
+</head>
+<body>
+
+<h1 id="helloWorld">Hello, World</h1>
+
+<script>
+    const h1Element = document.getElementById('helloWorld');
+    let originalText = h1Element.innerText;
+
+    // Function to handle click event and make the text editable
+    function makeEditable() {
+        const text = h1Element.innerText;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = text;
+        input.addEventListener('blur', () => {
+            if (input.value.trim() !== '') {
+                h1Element.innerText = input.value;
+                updateCode(input.value);
+            } else {
+                h1Element.innerText = originalText;
+            }
+        });
+        input.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                input.blur();
+            }
+        });
+        h1Element.innerHTML = '';
+        h1Element.appendChild(input);
+        input.focus();
+    }
+
+    // Function to update the code with the new text
+    function updateCode(newText) {
+        const scriptElement = document.createElement('script');
+        scriptElement.innerHTML = 
+`document.getElementById('helloWorld').innerText = '${newText}';`;
+        document.body.appendChild(scriptElement);
+    }
+
+    h1Element.addEventListener('click', makeEditable);
+</script>
+
+</body>
+</html>
+
